@@ -1,0 +1,35 @@
+.qty-select {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+  .num-select {
+    display: flex;
+
+    .num-input{
+      width: 2.5rem;
+      height: 24px;
+      font-size: 12px;
+    }
+    .num-minus, .num-add {
+      height: 24px;
+      padding: 0px 5px;
+      color: white;
+      opacity: 0.3;
+      background: #393d54;
+    }
+    .num-minus {
+      margin-left: 10px;
+    }
+    .num-minus:hover, .num-add:hover {
+      cursor: pointer;
+      box-shadow: 0 4px 6px 0 rgba(0,0,0,0.24),0 2px 7px 0 rgba(0,0,0,0.19);
+    }
+  }
+}
+.qty-select-cart-edit {
+  justify-content: left;
+  margin-bottom: 0px;
+  .num-minus {
+    margin-left: 0px!important;
+  }
+}

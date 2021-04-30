@@ -1,0 +1,80 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
+  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "promise",
+    "prettier"
+  ],
+  "extends": [
+    "eslint-config-airbnb",
+    "prettier",
+    "prettier/react"
+  ],
+  "globals": {
+    "SERVER": true,
+    "success": true,
+    "info": true,
+    "warning": true,
+    "errorMsg": true,
+    "Observable": true,
+    "mscConfirm": true
+  },
+  "rules": {
+    "no-async-promise-executor": "off",
+    "no-underscore-dangle": "off",
+    "promise/always-return": "error",
+    "promise/no-return-wrap": "error",
+    "promise/param-names": "error",
+    "promise/catch-or-return": "error",
+    "promise/no-native": "off",
+    "promise/no-promise-in-callback": "warn",
+    "promise/no-callback-in-promise": "warn",
+    "promise/avoid-new": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js"
+        ]
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "bracketSpacing": false
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": [
+            "nesting",
+            "id"
+          ]
+        }
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "react/destructuring-assignment": "off"
+  }
+}

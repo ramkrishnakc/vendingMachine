@@ -1,0 +1,51 @@
+.tile-item {
+  flex: 0 0 32.2%;
+  margin-bottom: 30px;
+  height: 305px;
+  background: #fdfefe;
+  position: relative;
+  color: $navbar-bg-color;
+
+  .item-title {
+    color: $navbar-bg-color;
+    text-align: center;
+    padding: 7px 0px 10px 0px;
+  }
+
+  .item-image{
+    height: 145px;
+    // border: 1px solid black;
+  }
+
+  .item-info {
+    text-align: center;
+    padding: 10px 0px;
+    .in-stock {
+      font-size: 14px;
+      color: green
+    }
+  }
+
+  .out-of-stock {
+    font-size: 14px;
+    color: red;
+    text-align: center;
+  }
+
+  .item-button-wrapper {
+    background: #393d54;
+    text-align: center;
+    padding: 5px 0px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    color: white;
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  .item-button-wrapper:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.24),0 2px 7px 0 rgba(0,0,0,0.19);
+  }
+}

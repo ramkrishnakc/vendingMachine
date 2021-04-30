@@ -1,0 +1,6 @@
+node_modules
+static
+server/certs
+package-lock.json
+dist
+uploads

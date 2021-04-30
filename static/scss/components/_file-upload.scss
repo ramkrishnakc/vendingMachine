@@ -1,0 +1,28 @@
+.native-upload {
+  .hidden {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+  input+label {
+    height: 50px;
+    background: #eff0f3;
+    border: 1px dashed darkgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    font-size: 13px;
+    color: #616161;
+  }
+}
+    
+.native-upload-active {
+  input+label{
+    border: 1px dashed #393d54;
+    opacity: 0.7;
+  }
+}

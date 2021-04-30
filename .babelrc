@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime", /* no need to add babel-polyfill if transform runtime is present */
+    "@babel/plugin-proposal-class-properties" /* handles experimental class features as well as arrow functions */,
+    "@babel/plugin-transform-arrow-functions",
+    "@babel/plugin-syntax-dynamic-import", /* handles import('module-name').then() code client side */
+    "babel-plugin-lodash" /* prevents lodash being bundled as whole instead of used functions only */
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/preset-env"
+      ]
+    }
+  }
+}

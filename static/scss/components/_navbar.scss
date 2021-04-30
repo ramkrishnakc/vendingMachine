@@ -1,0 +1,51 @@
+.navigation-bar {
+  display: inline-flex;
+  position: fixed;
+  width: 100%;
+  background-color: $navbar-bg-color;
+  height: $navbar-height;
+  padding: 0px 20px;
+  align-items: center;
+  font-size: 13px;
+  color: $navbar-font-color;
+  
+  .section-title {
+    flex-grow: 1;
+    font-size: 24px;
+    margin-bottom: 45px;
+    padding-top: 45px;
+  }
+  
+  .action-items-container {
+    display: inline-flex;
+    .circle-icon-container {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      margin-right: 30px;
+      .circle-icon {
+        display: flex;
+        width: 24px;
+        height: 24px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        margin-right: 5px;
+        font-size: 21px;
+        margin-right: 12px;
+      }
+    }
+
+    .right-label-icon-container{
+      display: inline-flex;
+      cursor: pointer;
+      align-items: center;
+      .right-label-icon{
+        display: flex;
+        align-items: center;
+        font-size: 21px;
+        margin-right: 12px;
+      }
+    }
+  }
+}
