@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {get} from 'lodash';
+
 import Util from '../../../common';
+import {errorMsg, success} from '../../components/notify';
 
 const prefix = 'Product';
 const {addPrefix} = Util;
@@ -37,9 +39,11 @@ export const fetchProducts = () => {
             }),
           });
         }
+        errorMsg('Unable to fetch products from DB.');
         return dispatch({type: FETCH_PRODUCTS_FAILURE});
       })
       .catch(err => {
+        errorMsg('Unable to fetch products from DB.');
         return dispatch({type: FETCH_PRODUCTS_FAILURE, payload: err});
       });
   };
@@ -52,11 +56,14 @@ export const handleCheckout = payload => {
       .post('/vendorapi/products/checkout', payload, {})
       .then(res => {
         if (get(res, ['data', 'success'])) {
+          success('Purchase successful.');
           return dispatch({type: CHECKOUT_SUCCESS, payload});
         }
+        errorMsg('Unable to checkout. Internal server error.');
         return dispatch({type: CHECKOUT_FAILURE});
       })
       .catch(err => {
+        errorMsg('Unable to checkout. Internal server error.');
         return dispatch({type: CHECKOUT_FAILURE, payload: err});
       });
   };
@@ -106,6 +113,20 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         coins: action.payload.coins,
+        products: state.products.map(item => {
+          const match = action.payload.products.find(
+            ele => ele.product_id === item.product_id
+          );
+
+          if (match) {
+            return {
+              ...item,
+              old_stock: match.product_stock,
+              product_stock: match.product_stock,
+            };
+          }
+          return item;
+        }),
         random_id: Util.randomString(5),
         checkingOut: false,
       };
@@ -115,6 +136,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         checkingOut: false,
+        random_id: Util.randomString(5),
       };
     }
 

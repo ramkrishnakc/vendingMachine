@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import NumSelect from './numSelect';
 import FontAwesomeIcon from './fontAwesomeLibrary';
-
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+import {warning} from './notify';
 
 const getStockLimit = (list, item) => {
   const match = list.find(ele => ele.product_name === item.name);
@@ -33,12 +32,16 @@ const proceedCheckout = ({amount, total, coins, setError, handleCheckout}) => {
   }
 
   setError(errMsg);
-  // You are allowed to checkout now
-  if (!errMsg) {
+
+  if (errMsg) {
+    warning('Checkout not allowed.');
+  } else {
+    // You are allowed to checkout now
     handleCheckout({amount, total});
   }
 };
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const Cart = props => {
   const [amount, setBillAmount] = useState('');
   const [error, setError] = useState('');

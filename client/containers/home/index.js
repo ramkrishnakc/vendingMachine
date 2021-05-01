@@ -8,11 +8,11 @@ import Loader from '../../components/loader';
 import Tile from '../../components/tile';
 import Cart from '../../components/cart';
 import CheckoutPopup from '../../components/checkoutPopup';
-import FontAwesomeIcon from '../../components/fontAwesomeLibrary';
+import {info} from '../../components/notify';
+import SlideButton from '../../components/slideButton';
 import {fetchProducts, handleCheckout} from './home.module';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-
 export class Create extends React.Component {
   constructor(props) {
     super(props);
@@ -64,6 +64,8 @@ export class Create extends React.Component {
             : ele
         ),
       }));
+
+      info(`${productItem.product_name} added to the cart.`);
     } else {
       this.setState(prevState => ({
         cart: prevState.cart.map(ele =>
@@ -78,11 +80,13 @@ export class Create extends React.Component {
             : ele
         ),
       }));
+
+      info(`Cart updated for ${productItem.product_name}.`);
     }
   };
 
   /* Handles logic related to removing item from cart */
-  deleteFromCart = cartItem =>
+  deleteFromCart = cartItem => {
     this.setState(prevState => ({
       cart: prevState.cart.filter(ele => ele.name !== cartItem.name),
       products: prevState.products.map(ele =>
@@ -95,6 +99,9 @@ export class Create extends React.Component {
           : ele
       ),
     }));
+
+    info(`${cartItem.name} removed from the Cart.`);
+  };
 
   /* Handles logic related to update items added in cart */
   updateCart = cartItem => quantity =>
@@ -121,127 +128,133 @@ export class Create extends React.Component {
     });
   };
 
+  /* Hamndle purchase confirmation */
+  handleConfirmation = () => {
+    this.props.submit({
+      coins: this.state.coins + this.state.total,
+      products: this.state.cart
+        .map(item => {
+          const match = this.state.products.find(
+            prod => prod.product_name === item.name
+          );
+          if (!match) {
+            return null;
+          }
+          return {
+            product_id: match.product_id,
+            product_stock: match.product_stock,
+          };
+        })
+        .filter(item => item),
+    });
+
+    this.setState({
+      sliderHidden: true,
+      openCheckoutPopup: false,
+    });
+  };
+
   render() {
     const loading = this.props.fetchingData || this.props.checkingOut;
+
+    if (loading) {
+      return <Loader />;
+    }
 
     return (
       <>
         <Navbar addProduct={() => {}} coins={this.state.coins} />
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="main-content">
-            <div className="content-row">
-              {!this.props.products.length ? (
-                <div className="no-product-found">
-                  <h6>No products found!!!</h6>
-                </div>
-              ) : (
-                <>
-                  {/* Display items available in machine */}
-                  <div
-                    className={cx('content-list', {
-                      'full-page-content': !this.state.cart.length,
-                    })}
-                  >
-                    <h3>Items currently available:</h3>
-                    <div className="items-wrapper">
-                      {this.state.products.map(item => {
-                        let btnLabel = 'Add to Cart';
-                        let btnDisable = false;
+        <div className="main-content">
+          <div className="content-row">
+            {!this.props.products.length ? (
+              <div className="no-product-found">
+                <h6>No products found!!!</h6>
+              </div>
+            ) : (
+              <>
+                {/* Display items available in machine */}
+                <div
+                  className={cx('content-list', {
+                    'full-page-content': !this.state.cart.length,
+                  })}
+                >
+                  <h3>Items currently available:</h3>
+                  <div className="items-wrapper">
+                    {this.state.products.map(item => {
+                      let btnLabel = 'Add to Cart';
+                      let btnDisable = false;
 
-                        if (!item.product_stock) {
-                          btnLabel = 'Not Available';
-                          btnDisable = true;
-                        }
-
-                        return (
-                          <Tile
-                            key={`${item.product_name}_${item.product_stock}`}
-                            name={item.product_name}
-                            price={item.product_price}
-                            stock={item.product_stock}
-                            buttonOnClick={this.addToCart(item)}
-                            buttonLabel={btnLabel}
-                            buttonDisable={btnDisable}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-                  {/* slider */}
-                  <div className="slider-button-wrapper">
-                    <div
-                      className="slider-button"
-                      onClick={() =>
-                        this.setState(prevState => ({
-                          sliderHidden: !prevState.sliderHidden,
-                        }))
+                      if (!item.product_stock) {
+                        btnLabel = 'Not Available';
+                        btnDisable = true;
                       }
-                    >
-                      <FontAwesomeIcon
-                        className={cx({
-                          'hide-content': !this.state.sliderHidden,
-                        })}
-                        icon="angle-left"
-                      />
-                      <FontAwesomeIcon
-                        className={cx({
-                          'hide-content': this.state.sliderHidden,
-                        })}
-                        icon="angle-right"
-                      />
-                    </div>
-                  </div>
-                  {/* Display cart content */}
-                  <div
-                    className={cx('content-description', {
-                      'hide-content': this.state.sliderHidden,
+
+                      return (
+                        <Tile
+                          key={`${item.product_name}_${item.product_stock}`}
+                          name={item.product_name}
+                          price={item.product_price}
+                          stock={item.product_stock}
+                          buttonOnClick={this.addToCart(item)}
+                          buttonLabel={btnLabel}
+                          buttonDisable={btnDisable}
+                        />
+                      );
                     })}
-                  >
-                    <h3>Items in Cart:</h3>
-                    <div className="activity-wrapper">
-                      <Cart
-                        items={this.state.cart}
-                        productsList={this.state.products}
-                        buttonLabel="Checkout"
-                        handleCheckout={this.checkout}
-                        deleteFromCart={this.deleteFromCart}
-                        setQtyFunction={this.updateCart}
-                        coins={this.state.coins}
-                      />
-                    </div>
                   </div>
-                  {/* checkout popup */}
-                  <CheckoutPopup
-                    contentStyle={{
-                      borderRadius: '0px',
-                      padding: '0px',
-                      color: '#393d54',
-                      background: '#eff0f3',
-                      minHeight: 'calc(100% - 100px)',
-                      minWidth: 'calc(100% - 100px)',
-                      height: 'calc(100% - 100px)',
-                      width: 'calc(100% - 100px)',
-                      overflow: 'auto',
-                    }}
-                    open={this.state.openCheckoutPopup}
-                    closePopup={() => this.setState({openCheckoutPopup: false})}
-                    items={this.state.cart}
-                    amount={this.state.amount}
-                    total={this.state.total}
-                    handleConfirm={() =>
-                      this.props.submit({
-                        coins: this.state.coins + this.state.total,
-                        products: this.state.products,
-                      })
-                    }
-                  />
-                </>
-              )}
-            </div>
+                </div>
+                {/* slide button */}
+                <SlideButton
+                  sliderHidden={this.state.sliderHidden}
+                  handleBtnClick={() =>
+                    this.setState(prevState => ({
+                      sliderHidden: !prevState.sliderHidden,
+                    }))
+                  }
+                />
+                {/* Display cart content */}
+                <div
+                  className={cx('content-description', {
+                    'hide-content': this.state.sliderHidden,
+                  })}
+                >
+                  <h3>Items in Cart:</h3>
+                  <div className="activity-wrapper">
+                    <Cart
+                      items={this.state.cart}
+                      productsList={this.state.products}
+                      buttonLabel="Checkout"
+                      handleCheckout={this.checkout}
+                      deleteFromCart={this.deleteFromCart}
+                      setQtyFunction={this.updateCart}
+                      coins={this.state.coins}
+                    />
+                  </div>
+                </div>
+                {/* checkout popup */}
+                <CheckoutPopup
+                  contentStyle={{
+                    borderRadius: '0px',
+                    padding: '0px',
+                    color: '#393d54',
+                    background: '#eff0f3',
+                    minHeight: 'calc(100% - 100px)',
+                    minWidth: 'calc(100% - 100px)',
+                    height: 'calc(100% - 100px)',
+                    width: 'calc(100% - 100px)',
+                    overflow: 'auto',
+                  }}
+                  open={this.state.openCheckoutPopup}
+                  closePopup={() => this.setState({openCheckoutPopup: false})}
+                  items={this.state.cart}
+                  amount={this.state.amount}
+                  total={this.state.total}
+                  handleConfirm={this.handleConfirmation}
+                />
+              </>
+            )}
           </div>
-        )}
+        </div>
       </>
     );
   }
