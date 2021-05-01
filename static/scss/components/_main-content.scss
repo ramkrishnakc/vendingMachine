@@ -89,7 +89,7 @@
         }
         .btn-wrap:hover {
           opacity: 0.9;
-          box-shadow: 0 4px 6px 0 rgba(0,0,0,0.24),0 2px 7px 0 rgba(0,0,0,0.19);
+          box-shadow: $default-box-shadow;
         }
       }
     }
@@ -112,7 +112,7 @@
       }
       .slider-button:hover {
         opacity: 1;
-        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.24),0 2px 7px 0 rgba(0,0,0,0.19);
+        box-shadow: $default-box-shadow;
       }
     }
   }

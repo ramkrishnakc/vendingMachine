@@ -2,14 +2,43 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import NumSelect from './numSelect';
-import FontAwesomeIcon from './FontAwesomeLibrary';
+import FontAwesomeIcon from './fontAwesomeLibrary';
+
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
 const getStockLimit = (list, item) => {
   const match = list.find((ele) => ele.product_name === item.name);
   return match ? match.old_stock : item.quantity;
 };
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+const proceedCheckout = ({amount, total, coins, setError, handleCheckout}) => {
+  if (!amount) {
+    setError('');
+    return;
+  }
+
+  // Handle checkout conditions
+  let errMsg = '';
+
+  if (!total) {
+    errMsg = 'No item in cart. Could not proceed.';
+  }
+
+  const returnAmt = amount - total;
+  if (returnAmt < 0) {
+    errMsg = `You are Rs.${-returnAmt} short in your bills. Correct your payment before proceeding.`;
+  }
+  if (returnAmt > coins) {
+    errMsg = `Machine has ${coins} coins only. Could not provide the change. Please pay accordingly.`;
+  }
+
+  setError(errMsg);
+  // You are allowed to checkout now
+  if (!errMsg) {
+    handleCheckout({amount, total});
+  }
+};
+
 const Cart = (props) => {
   const [amount, setBillAmount] = useState('');
   const [error, setError] = useState('');
@@ -28,15 +57,13 @@ const Cart = (props) => {
     <>
       <table cellSpacing="0" cellPadding="0">
         <thead>
-          <th>Item</th>
-          <th>Qty</th>
-          <th>Rate</th>
-          <th>Price</th>
-          <th>&nbsp;</th>
+          {['Item', 'Qty', 'Rate', 'Price', ' '].map((colHeader) => (
+            <th>{colHeader}</th>
+          ))}
         </thead>
         <tbody>
           {props.items.map((item) => (
-            <tr>
+            <tr key={item.name}>
               <td>{item.name}</td>
               <td>
                 <div className="qty-select qty-select-cart-edit">
@@ -81,6 +108,19 @@ const Cart = (props) => {
                 setBillAmount(val);
               }
             }}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+
+                proceedCheckout({
+                  amount,
+                  total,
+                  setError,
+                  coins: props.coins,
+                  handleCheckout: props.handleCheckout,
+                });
+              }
+            }}
           />
         </div>
         <div className="error-msg">{error}</div>
@@ -88,34 +128,15 @@ const Cart = (props) => {
 
       <div
         className="btn-wrap"
-        onClick={() => {
-          if (!amount) {
-            setError('');
-            return;
-          }
-
-          // Handle checkout
-          let errMsg = '';
-
-          if (!total) {
-            errMsg = 'No item in cart. Could not proceed.';
-          }
-          const returnAmt = amount - total;
-
-          if (returnAmt < 0) {
-            errMsg = `You are Rs.${-returnAmt} short in your bills. Could not proceed.`;
-          }
-          if (returnAmt > props.coins) {
-            errMsg = `Machine has ${props.coins} coins only. Could not provide the change.`;
-          }
-
-          setError(errMsg);
-
-          // You are allowed to checkout now
-          if (!errMsg) {
-            props.handleCheckout();
-          }
-        }}
+        onClick={() =>
+          proceedCheckout({
+            amount,
+            total,
+            setError,
+            coins: props.coins,
+            handleCheckout: props.handleCheckout,
+          })
+        }
       >
         {props.buttonLabel}
       </div>
