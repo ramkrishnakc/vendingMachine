@@ -5,7 +5,7 @@ import reducers from '../reducers';
 
 const middlewares = [thunk];
 
-const configureStore = (data) => {
+const configureStore = data => {
   const finalCreateStore = composeWithDevTools({trace: true, traceLimit: 20})(
     applyMiddleware(...middlewares)
   )(createStore);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FontAwesomeIcon from './fontAwesomeLibrary';
 
-const NavBar = (props) => (
+const NavBar = props => (
   <div className="navigation-bar">
     <div className="section-title">Vendor Machine</div>
     <div className="action-items-container">

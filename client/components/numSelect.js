@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const NumSelect = (props) => {
+const NumSelect = props => {
   const [qty, setQuantity] = useState(0);
   const [prevQty, setPrevQuantity] = useState(0);
 
@@ -34,7 +34,7 @@ const NumSelect = (props) => {
         type="text"
         className="num-input"
         value={qty}
-        onChange={(e) => {
+        onChange={e => {
           const val = e.target.value;
 
           if (/^[0-9]*$/.test(val) && val <= props.limit) {

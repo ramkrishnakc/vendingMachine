@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import CreateStore from './store';
 import Routes from './routes';
-// import HomeComponent from './containers/home';
 
 let prevStoredState = localStorage.getItem('reduxState');
 if (prevStoredState === null) {

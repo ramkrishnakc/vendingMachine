@@ -7,7 +7,7 @@ import FontAwesomeIcon from './fontAwesomeLibrary';
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 
 const getStockLimit = (list, item) => {
-  const match = list.find((ele) => ele.product_name === item.name);
+  const match = list.find(ele => ele.product_name === item.name);
   return match ? match.old_stock : item.quantity;
 };
 
@@ -39,7 +39,7 @@ const proceedCheckout = ({amount, total, coins, setError, handleCheckout}) => {
   }
 };
 
-const Cart = (props) => {
+const Cart = props => {
   const [amount, setBillAmount] = useState('');
   const [error, setError] = useState('');
 
@@ -57,12 +57,12 @@ const Cart = (props) => {
     <>
       <table cellSpacing="0" cellPadding="0">
         <thead>
-          {['Item', 'Qty', 'Rate', 'Price', ' '].map((colHeader) => (
+          {['Item', 'Qty', 'Rate', 'Price', ' '].map(colHeader => (
             <th>{colHeader}</th>
           ))}
         </thead>
         <tbody>
-          {props.items.map((item) => (
+          {props.items.map(item => (
             <tr key={item.name}>
               <td>{item.name}</td>
               <td>
@@ -101,14 +101,14 @@ const Cart = (props) => {
             type="text"
             placeholder="Enter your payment here"
             value={amount}
-            onChange={(e) => {
+            onChange={e => {
               const val = e.target.value;
 
               if (/^[0-9]*$/.test(val)) {
                 setBillAmount(val);
               }
             }}
-            onKeyPress={(e) => {
+            onKeyPress={e => {
               if (e.key === 'Enter') {
                 e.preventDefault();
 

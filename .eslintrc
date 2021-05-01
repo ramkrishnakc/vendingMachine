@@ -31,6 +31,7 @@
     "mscConfirm": true
   },
   "rules": {
+    "arrow-parens": ["error", "as-needed"],
     "no-async-promise-executor": "off",
     "no-underscore-dangle": "off",
     "promise/always-return": "error",
@@ -60,7 +61,8 @@
       {
         "trailingComma": "es5",
         "singleQuote": true,
-        "bracketSpacing": false
+        "bracketSpacing": false,
+        "arrowParens": "avoid"
       }
     ],
     "jsx-a11y/label-has-for": [

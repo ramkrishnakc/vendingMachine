@@ -41,7 +41,7 @@ export class Create extends React.Component {
   }
 
   /* Handles all the logic related to adding item in cart */
-  addToCart = (productItem) => (quantity) => {
+  addToCart = productItem => quantity => {
     if (!quantity) return;
 
     // Show cart items after initially adding item to cart
@@ -52,9 +52,9 @@ export class Create extends React.Component {
     const {product_name: name, product_price: rate} = productItem;
 
     if (!productItem.product_added_in_cart) {
-      this.setState((prevState) => ({
+      this.setState(prevState => ({
         cart: [...prevState.cart, {name, rate, quantity}],
-        products: prevState.products.map((ele) =>
+        products: prevState.products.map(ele =>
           ele.product_name === name
             ? {
                 ...ele,
@@ -65,11 +65,11 @@ export class Create extends React.Component {
         ),
       }));
     } else {
-      this.setState((prevState) => ({
-        cart: prevState.cart.map((ele) =>
+      this.setState(prevState => ({
+        cart: prevState.cart.map(ele =>
           ele.name === name ? {...ele, quantity: ele.quantity + quantity} : ele
         ),
-        products: prevState.products.map((ele) =>
+        products: prevState.products.map(ele =>
           ele.product_name === name
             ? {
                 ...ele,
@@ -82,10 +82,10 @@ export class Create extends React.Component {
   };
 
   /* Handles logic related to removing item from cart */
-  deleteFromCart = (cartItem) =>
-    this.setState((prevState) => ({
-      cart: prevState.cart.filter((ele) => ele.name !== cartItem.name),
-      products: prevState.products.map((ele) =>
+  deleteFromCart = cartItem =>
+    this.setState(prevState => ({
+      cart: prevState.cart.filter(ele => ele.name !== cartItem.name),
+      products: prevState.products.map(ele =>
         ele.product_name === cartItem.name
           ? {
               ...ele,
@@ -97,12 +97,12 @@ export class Create extends React.Component {
     }));
 
   /* Handles logic related to update items added in cart */
-  updateCart = (cartItem) => (quantity) =>
-    this.setState((prevState) => ({
-      cart: prevState.cart.map((ele) =>
+  updateCart = cartItem => quantity =>
+    this.setState(prevState => ({
+      cart: prevState.cart.map(ele =>
         ele.name === cartItem.name ? {...ele, quantity} : ele
       ),
-      products: prevState.products.map((ele) =>
+      products: prevState.products.map(ele =>
         ele.product_name === cartItem.name
           ? {
               ...ele,
@@ -146,7 +146,7 @@ export class Create extends React.Component {
                   >
                     <h3>Items currently available:</h3>
                     <div className="items-wrapper">
-                      {this.state.products.map((item) => {
+                      {this.state.products.map(item => {
                         let btnLabel = 'Add to Cart';
                         let btnDisable = false;
 
@@ -174,7 +174,7 @@ export class Create extends React.Component {
                     <div
                       className="slider-button"
                       onClick={() =>
-                        this.setState((prevState) => ({
+                        this.setState(prevState => ({
                           sliderHidden: !prevState.sliderHidden,
                         }))
                       }
@@ -256,17 +256,17 @@ Create.propTypes = {
   submit: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   products: state.home.products,
   coins: state.home.coins,
   checkingOut: state.home.checkingOut,
   fetchingData: state.home.fetchingData,
 });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    fetch: (data) => dispatch(fetchProducts(data)),
-    submit: (data) => dispatch(handleCheckout(data)),
+    fetch: data => dispatch(fetchProducts(data)),
+    submit: data => dispatch(handleCheckout(data)),
   };
 };
 

@@ -6,7 +6,7 @@ import NumSelect from './numSelect';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions,
   jsx-a11y/label-has-associated-control */
-const Tile = (props) => {
+const Tile = props => {
   const [quantity, setQuantity] = useState(0);
 
   return (
@@ -29,7 +29,7 @@ const Tile = (props) => {
           Quantity:{' '}
           <NumSelect
             limit={props.stock}
-            setQtyFunction={(val) => setQuantity(val)}
+            setQtyFunction={val => setQuantity(val)}
           />
         </div>
       ) : (

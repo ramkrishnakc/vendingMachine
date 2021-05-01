@@ -20,13 +20,13 @@ const INITIAL_STATE = {
 
 /* -------------------------- actions ------------------ */
 export const fetchProducts = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({type: FETCH_PRODUCTS});
     return axios({
       method: 'GET',
       url: `/vendorapi/product`,
     })
-      .then((res) => {
+      .then(res => {
         if (get(res, ['data', 'success'])) {
           return dispatch({
             type: FETCH_PRODUCTS_SUCCESS,
@@ -38,24 +38,24 @@ export const fetchProducts = () => {
         }
         return dispatch({type: FETCH_PRODUCTS_FAILURE});
       })
-      .catch((err) => {
+      .catch(err => {
         return dispatch({type: FETCH_PRODUCTS_FAILURE, payload: err});
       });
   };
 };
 
-export const handleCheckout = (payload) => {
-  return (dispatch) => {
+export const handleCheckout = payload => {
+  return dispatch => {
     dispatch({type: CHECKOUT});
     return axios
       .post('/vendorapi/product/checkout', payload, {})
-      .then((res) => {
+      .then(res => {
         if (get(res, ['data', 'success'])) {
           return dispatch({type: CHECKOUT_SUCCESS, payload});
         }
         return dispatch({type: CHECKOUT_FAILURE});
       })
-      .catch((err) => {
+      .catch(err => {
         return dispatch({type: CHECKOUT_FAILURE, payload: err});
       });
   };

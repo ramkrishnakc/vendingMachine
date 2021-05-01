@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Popup from 'react-poppop';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const CheckoutPopup = (props) => {
+const CheckoutPopup = props => {
   return (
     <Popup
       position="centerCenter"
@@ -17,12 +17,12 @@ const CheckoutPopup = (props) => {
 
         <table cellSpacing="0" cellPadding="0">
           <thead>
-            {['Item', 'Qty', 'Rate', 'Price'].map((colHeader) => (
+            {['Item', 'Qty', 'Rate', 'Price'].map(colHeader => (
               <th>{colHeader}</th>
             ))}
           </thead>
           <tbody>
-            {props.items.map((item) => (
+            {props.items.map(item => (
               <tr key={item.name}>
                 <td>{item.name}</td>
                 <td>{item.quantity}</td>

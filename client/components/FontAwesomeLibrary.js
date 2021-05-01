@@ -13,7 +13,7 @@ import {
 
 const initFontAwesomeLibrary = () => {
   [faCoins, faPlusSquare, faTrash, faEdit, faAngleRight, faAngleLeft].forEach(
-    (icon) => {
+    icon => {
       library.add(icon);
     }
   );
@@ -21,7 +21,7 @@ const initFontAwesomeLibrary = () => {
 
 initFontAwesomeLibrary();
 
-const FontAwesomeIcon = (props) => {
+const FontAwesomeIcon = props => {
   const {style, icon, ...otherProps} = props;
   return (
     <Icon style={{cursor: 'pointer', ...style}} icon={icon} {...otherProps} />
