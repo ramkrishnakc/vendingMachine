@@ -6,9 +6,9 @@ const NavBar = props => (
   <div className="navigation-bar">
     <div className="section-title">Vendor Machine</div>
     <div className="action-items-container">
-      <div className="circle-icon-container" role="presentation">
+      <div className="circle-icon-container" style={{cursor: 'auto'}}>
         <div className="circle-icon">
-          <FontAwesomeIcon icon="coins" />
+          <FontAwesomeIcon icon="coins" style={{cursor: 'auto'}} />
         </div>
         <div>Coins: {props.coins}</div>
       </div>

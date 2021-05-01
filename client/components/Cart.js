@@ -41,7 +41,6 @@ const proceedCheckout = ({amount, total, coins, setError, handleCheckout}) => {
   }
 };
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const Cart = props => {
   const [amount, setBillAmount] = useState('');
   const [error, setError] = useState('');
@@ -140,6 +139,7 @@ const Cart = props => {
             handleCheckout: props.handleCheckout,
           })
         }
+        role="presentation"
       >
         {props.buttonLabel}
       </div>

@@ -12,7 +12,6 @@ import {info} from '../../components/notify';
 import SlideButton from '../../components/slideButton';
 import {fetchProducts, handleCheckout} from './home.module';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export class Create extends React.Component {
   constructor(props) {
     super(props);

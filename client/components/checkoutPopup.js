@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Popup from 'react-poppop';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const CheckoutPopup = props => {
   return (
     <Popup
@@ -40,10 +39,18 @@ const CheckoutPopup = props => {
         </div>
 
         <div className="bar-bottom">
-          <div className="bar-btn confirm-btn" onClick={props.handleConfirm}>
+          <div
+            role="presentation"
+            className="bar-btn confirm-btn"
+            onClick={props.handleConfirm}
+          >
             Confirm
           </div>
-          <div className="bar-btn cancel-btn" onClick={props.closePopup}>
+          <div
+            role="presentation"
+            className="bar-btn cancel-btn"
+            onClick={props.closePopup}
+          >
             Cancel
           </div>
         </div>

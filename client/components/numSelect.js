@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const NumSelect = props => {
   const [qty, setQuantity] = useState(0);
   const [prevQty, setPrevQuantity] = useState(0);
@@ -18,6 +17,7 @@ const NumSelect = props => {
   return (
     <div className="num-select">
       <div
+        role="presentation"
         className="num-minus"
         onClick={() => {
           const val = qty - 1;
@@ -44,7 +44,7 @@ const NumSelect = props => {
         }}
       />
       <div
-        type="button"
+        role="presentation"
         className="num-add"
         onClick={() => {
           const val = qty + 1;

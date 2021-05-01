@@ -4,10 +4,13 @@ import cx from 'classnames';
 
 import FontAwesomeIcon from './fontAwesomeLibrary';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const SlideButton = props => (
   <div className="slider-button-wrapper">
-    <div className="slider-button" onClick={props.handleBtnClick}>
+    <div
+      role="presentation"
+      className="slider-button"
+      onClick={props.handleBtnClick}
+    >
       <FontAwesomeIcon
         className={cx({
           'hide-content': !props.sliderHidden,

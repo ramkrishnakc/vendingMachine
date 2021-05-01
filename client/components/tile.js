@@ -4,8 +4,6 @@ import cx from 'classnames';
 
 import NumSelect from './numSelect';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions,
-  jsx-a11y/label-has-associated-control */
 const Tile = props => {
   const [quantity, setQuantity] = useState(0);
 
@@ -36,6 +34,7 @@ const Tile = props => {
         <div className="out-of-stock">(Out of Stock)</div>
       )}
       <div
+        role="presentation"
         className={cx('item-button-wrapper', {
           disable: props.buttonDisable,
         })}
