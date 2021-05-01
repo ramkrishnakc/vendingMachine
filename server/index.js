@@ -3,7 +3,7 @@ import http from 'http';
 import spdy from 'spdy';
 import fs from 'fs';
 
-import createDB from './system';
+import createDB, {insertInitialData} from './system';
 import config from './config';
 import {mkDirByPathSync} from './controller/helper';
 
@@ -40,9 +40,7 @@ const handleServerStatusLog = (serverType, port, err) => {
 const createHTTPServer = () =>
   http
     .Server(app)
-    .listen(httpPort, ip, (err) =>
-      handleServerStatusLog('HTTP', httpPort, err)
-    );
+    .listen(httpPort, ip, err => handleServerStatusLog('HTTP', httpPort, err));
 
 const createHTTPsServer = () =>
   spdy
@@ -53,7 +51,7 @@ const createHTTPsServer = () =>
       },
       app
     )
-    .listen(httpsPort, ip, (err) =>
+    .listen(httpsPort, ip, err =>
       handleServerStatusLog('HTTPS', httpsPort, err)
     );
 
@@ -64,7 +62,7 @@ const SERVER = {
     const routes = require('./routes').default; // eslint-disable-line global-require
     routes(app); // Configure routes
 
-    uploadPaths.forEach((uploadPath) => mkDirByPathSync(uploadPath)); // create file upload paths if needed
+    uploadPaths.forEach(uploadPath => mkDirByPathSync(uploadPath)); // create file upload paths if needed
     createHTTPServer(); // start HTTP server
     createHTTPsServer(); // Finally start HTTPS server
   },
@@ -73,7 +71,8 @@ const SERVER = {
 // Initialize Database then start the server
 createDB()
   .then(() => SERVER.start())
-  .catch((e) => {
+  .then(() => insertInitialData())
+  .catch(e => {
     logger.error('Error while starting the Application....');
     logger.trace(e.stack);
   });

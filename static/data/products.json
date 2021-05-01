@@ -1,0 +1,23 @@
+[
+  {
+    "product_id": "PROD-001",
+    "product_name": "Pepsi",
+    "product_price": 25,
+    "product_stock": 10,
+    "product_image": "pepsi.jpg"
+  },
+  {
+    "product_id": "PROD-002",
+    "product_name": "Dew",
+    "product_price": 30,
+    "product_stock": 10,
+    "product_image": "dew.jpg"
+  },
+  {
+    "product_id": "PROD-003",
+    "product_name": "Coke",
+    "product_price": 20,
+    "product_stock": 10,
+    "product_image": "coke.jpg"
+  }
+]

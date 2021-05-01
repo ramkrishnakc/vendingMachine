@@ -22,15 +22,15 @@ export class Create extends React.Component {
       openCheckoutPopup: false,
       coins: this.props.coins,
       products: this.props.products,
+      random_id: '',
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const obj = {};
-    if (prevState.coins !== nextProps.coins) {
+    if (prevState.random_id !== nextProps.random_id) {
+      obj.random_id = nextProps.random_id;
       obj.coins = nextProps.coins;
-    }
-    if (prevState.products !== nextProps.products) {
       obj.products = nextProps.products;
     }
     return obj;
@@ -254,6 +254,7 @@ Create.propTypes = {
   fetchingData: PropTypes.bool.isRequired,
   fetch: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
+  random_id: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -261,6 +262,7 @@ const mapStateToProps = state => ({
   coins: state.home.coins,
   checkingOut: state.home.checkingOut,
   fetchingData: state.home.fetchingData,
+  random_id: state.home.random_id,
 });
 
 const mapDispatchToProps = dispatch => {

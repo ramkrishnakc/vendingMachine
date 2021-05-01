@@ -1,3 +1,4 @@
 export default {
-  coin_available: {type: Number, default: 100, required: true},
+  v_id: {type: String, required: true, unique: true},
+  coin_available: {type: Number, default: 10, required: true},
 };

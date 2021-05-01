@@ -4,7 +4,6 @@ const helper = Model => ({
     new Promise((resolve, reject) => {
       Model.find(params.query)
         .select(params.select)
-        // .sort({s_username: 1})
         .sort(params.sort)
         .then(result => resolve(result))
         .catch(err => reject(err));
@@ -28,9 +27,9 @@ const helper = Model => ({
     ),
 
   // Insert list of items into the Collection
-  insert: params =>
+  insertMany: params =>
     new Promise((resolve, reject) =>
-      Model.insert(params.data)
+      Model.insertMany(params.data)
         .then(res => resolve(res))
         .catch(err => reject(err))
     ),

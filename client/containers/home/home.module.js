@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   coins: 0,
   checkingOut: false,
   fetchingData: false,
+  random_id: '',
 };
 
 /* -------------------------- actions ------------------ */
@@ -24,7 +25,7 @@ export const fetchProducts = () => {
     dispatch({type: FETCH_PRODUCTS});
     return axios({
       method: 'GET',
-      url: `/vendorapi/product`,
+      url: `/vendorapi/products`,
     })
       .then(res => {
         if (get(res, ['data', 'success'])) {
@@ -48,7 +49,7 @@ export const handleCheckout = payload => {
   return dispatch => {
     dispatch({type: CHECKOUT});
     return axios
-      .post('/vendorapi/product/checkout', payload, {})
+      .post('/vendorapi/products/checkout', payload, {})
       .then(res => {
         if (get(res, ['data', 'success'])) {
           return dispatch({type: CHECKOUT_SUCCESS, payload});
@@ -74,9 +75,13 @@ const reducer = (state = INITIAL_STATE, action) => {
     case FETCH_PRODUCTS_SUCCESS: {
       return {
         ...state,
-        products: action.payload.products,
+        products: action.payload.products.map(d => ({
+          ...d,
+          old_stock: d.product_stock,
+        })),
         coins: action.payload.coins,
         fetchingData: false,
+        random_id: Util.randomString(5),
       };
     }
 
@@ -86,6 +91,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         products: [],
         coins: 0,
         fetchingData: false,
+        random_id: Util.randomString(5),
       };
     }
 
@@ -100,6 +106,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         coins: action.payload.coins,
+        random_id: Util.randomString(5),
         checkingOut: false,
       };
     }

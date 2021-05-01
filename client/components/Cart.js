@@ -26,10 +26,10 @@ const proceedCheckout = ({amount, total, coins, setError, handleCheckout}) => {
 
   const returnAmt = amount - total;
   if (returnAmt < 0) {
-    errMsg = `You are Rs.${-returnAmt} short in your bills. Correct your payment before proceeding.`;
+    errMsg = `You are Rs.${-returnAmt} short in your bills. Please correct your payment before proceeding.`;
   }
   if (returnAmt > coins) {
-    errMsg = `Machine has ${coins} coins only. Could not provide the change. Please pay accordingly.`;
+    errMsg = `Machine has ${coins} coins only. Unable to provide the change. Please pay accordingly.`;
   }
 
   setError(errMsg);
