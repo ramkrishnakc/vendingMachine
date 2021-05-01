@@ -16,7 +16,7 @@ const getProducts = async (req, res) => {
         product_id: 1,
         product_image: 1,
         product_name: 1,
-        product_price: 1,
+        product_rate: 1,
         product_stock: 1,
       },
       sort: {product_name: 1},

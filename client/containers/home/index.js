@@ -8,17 +8,19 @@ import Loader from '../../components/loader';
 import Tile from '../../components/tile';
 import Cart from '../../components/cart';
 import CheckoutPopup from '../../components/checkoutPopup';
+import RefundPopup from '../../components/refund';
 import {info} from '../../components/notify';
 import SlideButton from '../../components/slideButton';
 import {fetchProducts, handleCheckout} from './home.module';
 
-export class Create extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       cart: [],
       sliderHidden: true,
       openCheckoutPopup: false,
+      openRefundPopup: false,
       coins: this.props.coins,
       products: this.props.products,
       random_id: '',
@@ -48,7 +50,7 @@ export class Create extends React.Component {
       this.setState({sliderHidden: false});
     }
 
-    const {product_name: name, product_price: rate} = productItem;
+    const {product_name: name, product_rate: rate} = productItem;
 
     if (!productItem.product_added_in_cart) {
       this.setState(prevState => ({
@@ -153,6 +155,8 @@ export class Create extends React.Component {
     });
   };
 
+  handleRefund = () => {};
+
   render() {
     const loading = this.props.fetchingData || this.props.checkingOut;
 
@@ -162,7 +166,10 @@ export class Create extends React.Component {
 
     return (
       <>
-        <Navbar addProduct={() => {}} coins={this.state.coins} />
+        <Navbar
+          refund={() => this.setState({openRefundPopup: true})}
+          coins={this.state.coins}
+        />
         <div className="main-content">
           <div className="content-row">
             {!this.props.products.length ? (
@@ -192,7 +199,7 @@ export class Create extends React.Component {
                         <Tile
                           key={`${item.product_name}_${item.product_stock}`}
                           name={item.product_name}
-                          price={item.product_price}
+                          price={item.product_rate}
                           stock={item.product_stock}
                           buttonOnClick={this.addToCart(item)}
                           buttonLabel={btnLabel}
@@ -232,23 +239,18 @@ export class Create extends React.Component {
                 </div>
                 {/* checkout popup */}
                 <CheckoutPopup
-                  contentStyle={{
-                    borderRadius: '0px',
-                    padding: '0px',
-                    color: '#393d54',
-                    background: '#eff0f3',
-                    minHeight: 'calc(100% - 100px)',
-                    minWidth: 'calc(100% - 100px)',
-                    height: 'calc(100% - 100px)',
-                    width: 'calc(100% - 100px)',
-                    overflow: 'auto',
-                  }}
                   open={this.state.openCheckoutPopup}
                   closePopup={() => this.setState({openCheckoutPopup: false})}
+                  handleConfirm={this.handleConfirmation}
                   items={this.state.cart}
                   amount={this.state.amount}
                   total={this.state.total}
-                  handleConfirm={this.handleConfirmation}
+                />
+                {/* refund component */}
+                <RefundPopup
+                  open={this.state.openRefundPopup}
+                  closePopup={() => this.setState({openRefundPopup: false})}
+                  handleConfirm={this.handleRefund}
                 />
               </>
             )}
@@ -259,7 +261,7 @@ export class Create extends React.Component {
   }
 }
 
-Create.propTypes = {
+Home.propTypes = {
   products: PropTypes.arrayOf().isRequired,
   coins: PropTypes.number.isRequired,
   checkingOut: PropTypes.bool.isRequired,
@@ -284,4 +286,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Create);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

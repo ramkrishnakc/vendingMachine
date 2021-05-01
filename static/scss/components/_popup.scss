@@ -2,6 +2,7 @@
   padding: 25px;
   position: relative;
   height: 100%;
+  color: $navbar-bg-color;
 
   table {
     border: none;
@@ -20,7 +21,7 @@
   }
 
   .bar-bottom {
-    position: absolute;
+    position: sticky;
 	  bottom: 0;
     left: 0;
 	  width: 100%;
@@ -51,6 +52,23 @@
       opacity: 0.6;
       &:hover {
         opacity: 0.8;
+      }
+    }
+  }
+
+  .purchase-info-wrapper {
+    color: $navbar-bg-color;
+    font-size: 13px;
+    border-bottom: 1px dashed $navbar-bg-color;
+    margin: 25px 0px;
+    
+    .purchase-info {
+      margin-top: 25px;
+      font-size: 15px;
+      display: flex;
+
+      .purchase-info-item {
+        margin: 0px 15px;
       }
     }
   }

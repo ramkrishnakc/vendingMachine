@@ -13,6 +13,7 @@ import {
   faInfoCircle,
   faExclamationTriangle,
   faTimesCircle,
+  faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 const initFontAwesomeLibrary = () => {
@@ -27,6 +28,7 @@ const initFontAwesomeLibrary = () => {
     faInfoCircle,
     faExclamationTriangle,
     faTimesCircle,
+    faExchangeAlt,
   ].forEach(icon => {
     library.add(icon);
   });

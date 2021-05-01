@@ -15,13 +15,13 @@ const NavBar = props => (
 
       <div
         className="right-label-icon-container"
-        onClick={props.addProduct}
+        onClick={props.refund}
         role="presentation"
       >
         <div className="right-label-icon">
-          <FontAwesomeIcon icon="plus-square" />
+          <FontAwesomeIcon icon="exchange-alt" />
         </div>
-        <div>Add Product</div>
+        <div>Refund</div>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ NavBar.defaultProps = {
 };
 NavBar.propTypes = {
   coins: PropTypes.number,
-  addProduct: PropTypes.func.isRequired,
+  refund: PropTypes.func.isRequired,
 };
 
 export default NavBar;
