@@ -38,7 +38,7 @@ export default class Db {
           return reject(err);
         }
 
-        const listOfSchema = files.map((file) => {
+        const listOfSchema = files.map(file => {
           const modelName = Db.fileNameToModelName(file);
           const mName = modelName.toLowerCase();
           return {

@@ -6,7 +6,7 @@ const {
   app: {indexHtmlPath},
 } = config;
 
-const routes = (app) => {
+const routes = app => {
   // Register route
   app.use('/vendorapi/products', product);
 

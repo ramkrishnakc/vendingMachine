@@ -5,7 +5,7 @@ import config from '../webpack.dev.config';
 
 const compiler = webpack(config);
 
-const useDevServer = (app) => {
+const useDevServer = app => {
   app.use(
     webpackDevMiddleware(compiler, {
       publicPath: config.output.publicPath,
