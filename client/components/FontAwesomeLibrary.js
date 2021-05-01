@@ -9,14 +9,27 @@ import {
   faEdit,
   faAngleRight,
   faAngleLeft,
+  faCheck,
+  faInfoCircle,
+  faExclamationTriangle,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 const initFontAwesomeLibrary = () => {
-  [faCoins, faPlusSquare, faTrash, faEdit, faAngleRight, faAngleLeft].forEach(
-    icon => {
-      library.add(icon);
-    }
-  );
+  [
+    faCoins,
+    faPlusSquare,
+    faTrash,
+    faEdit,
+    faAngleRight,
+    faAngleLeft,
+    faCheck,
+    faInfoCircle,
+    faExclamationTriangle,
+    faTimesCircle,
+  ].forEach(icon => {
+    library.add(icon);
+  });
 };
 
 initFontAwesomeLibrary();

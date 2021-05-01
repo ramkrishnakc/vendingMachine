@@ -1,0 +1,37 @@
+$info-background-color: rgb(133, 113, 171);
+$warning-background-color: rgb(240, 154, 45);
+$error-background-color: rgb(213, 91, 118);
+$success-background-color: rgb(96, 172, 189);
+$toast-container-shadow-color: rgba(19, 19, 20, 0.33);
+
+.toast {
+  width: 342px;
+  height: 72px;
+  box-shadow: 1px 2px 6px 0px $toast-container-shadow-color;
+  right: 65px;
+  top: 10px;
+  padding: 0px;
+  .toast-message {
+    flex-grow: 1;
+    font-size: 14px;
+    word-break: break-word;
+  }
+  .toast-background-image {
+    width: 64px;
+  }
+  .toast-close-button {
+    width: 60px;
+  }
+  &.info {
+    background-color: $info-background-color;
+  }
+  &.warning {
+    background-color: $warning-background-color;
+  }
+  &.error {
+    background-color: $error-background-color;
+  }
+  &.success {
+    background-color: $success-background-color;
+  }
+}
