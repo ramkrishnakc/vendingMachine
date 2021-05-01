@@ -1,7 +1,7 @@
 {
   "name": "vendor-machine",
   "version": "1.0.0",
-  "description": "A complete school management software solution.",
+  "description": "A vending machine software.",
   "main": "./server/index.js",
   "directories": {
     "test": "tests"
@@ -31,8 +31,8 @@
     "rundev": "npm run builddev && npm run copy-upload && NODE_ENV=development nodemon --exec node_modules/.bin/babel-node ./server/index.js"
   },
   "keywords": [
-    "school",
-    "management",
+    "vendor",
+    "machine",
     "application",
     "software",
     "node",
@@ -54,14 +54,9 @@
     "axios": "^0.20.0",
     "classnames": "^2.3.1",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "express-session": "^1.17.1",
     "formidable": "^1.2.2",
     "helmet": "^4.1.1",
-    "joi": "^17.2.1",
-    "joi-browser": "^13.4.0",
     "lodash": "^4.17.20",
     "log4js": "^6.3.0",
     "mongoose": "^5.10.0",
@@ -69,21 +64,16 @@
     "nodemon": "^2.0.4",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-delay-render": "^0.1.2",
     "react-dom": "^16.13.1",
-    "react-imported-component": "^6.3.11",
     "react-poppop": "^1.5.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
-    "react-select": "^3.1.0",
-    "react-virtualized": "^9.22.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rimraf": "^3.0.2",
     "spdy": "^4.0.2",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-hot-middleware": "^2.25.0",
-    "zxcvbn": "^4.4.2"
+    "webpack-hot-middleware": "^2.25.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

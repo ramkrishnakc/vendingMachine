@@ -73,13 +73,12 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({filename: 'proj.styles.css'}),
     new HtmlWebPackPlugin({
-      title: 'School Management Software',
+      title: 'Vendor Machine',
       template: './static/index.html',
       favicon: './static/images/favicon.ico',
       inject: true,
       excludeChunks: ['server'],
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
   ],
 };

@@ -75,7 +75,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       filename: './index.html',
-      title: 'School Management Software',
+      title: 'Vendor Machine',
       template: './static/index.html',
       favicon: './static/images/favicon.ico',
       inject: true,

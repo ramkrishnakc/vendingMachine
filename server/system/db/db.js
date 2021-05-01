@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
 
-import {capitalizeFirstLetter} from '../../utils';
+import Utils from '../../../common';
 
 require('../global');
 
@@ -14,7 +14,7 @@ export default class Db {
   }
 
   static fileNameToModelName(filename) {
-    return capitalizeFirstLetter(filename.split('.')[0]);
+    return Utils.capitalizeFirstLetter(filename.split('.')[0]);
   }
 
   connect() {
