@@ -13,4 +13,7 @@ export default {
     }
     return result;
   },
+
+  displayDate: date =>
+    date ? new Date(date).toString().split(' GMT')[0] : '-',
 };

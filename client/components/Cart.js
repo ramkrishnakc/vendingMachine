@@ -57,7 +57,7 @@ const Cart = props => {
 
   return (
     <>
-      <table cellSpacing="0" cellPadding="0">
+      <table className="font-size-13" cellSpacing="0" cellPadding="0">
         <thead>
           {['Item', 'Qty', 'Rate', 'Price', ' '].map(colHeader => (
             <th>{colHeader}</th>
@@ -71,7 +71,7 @@ const Cart = props => {
                 <div className="qty-select qty-select-cart-edit">
                   <NumSelect
                     qty={item.quantity}
-                    limit={getStockLimit(props.productsList, item)}
+                    max={getStockLimit(props.productsList, item)}
                     setQtyFunction={props.setQtyFunction(item)}
                   />
                 </div>

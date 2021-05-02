@@ -11,9 +11,15 @@
       color: $navbar-bg-color;
       background: transparent;
     }
-    tr, tbody {
+    tr, td, tbody {
       background: transparent;
     }
+  }
+  table tbody tr {
+    background: transparent;
+  }
+  .bg-color {
+    background: #e8e8ea;
   }
 
   .bill-info {
@@ -26,7 +32,7 @@
     left: 0;
 	  width: 100%;
 	  display: flex;
-    padding: 20px;
+    padding: 20px 0px;
     justify-content: flex-end;
     .bar-btn {
       padding: 7px 10px 10px 10px;
@@ -55,21 +61,10 @@
       }
     }
   }
-
-  .purchase-info-wrapper {
-    color: $navbar-bg-color;
-    font-size: 13px;
-    border-bottom: 1px dashed $navbar-bg-color;
-    margin: 25px 0px;
-    
-    .purchase-info {
-      margin-top: 25px;
-      font-size: 15px;
-      display: flex;
-
-      .purchase-info-item {
-        margin: 0px 15px;
-      }
-    }
+  .border-bottom-cell {
+    border-bottom: 1px dashed #c7b8b8;
+  }
+  .less-opacity {
+    opacity: 0.8;
   }
 }

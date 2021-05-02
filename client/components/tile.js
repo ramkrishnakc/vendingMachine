@@ -26,7 +26,7 @@ const Tile = props => {
         <div className="qty-select">
           Quantity:{' '}
           <NumSelect
-            limit={props.stock}
+            max={props.stock}
             setQtyFunction={val => setQuantity(val)}
           />
         </div>

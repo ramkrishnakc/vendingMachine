@@ -22,7 +22,7 @@ const NumSelect = props => {
         onClick={() => {
           const val = qty - 1;
 
-          if (val >= 0) {
+          if (val >= props.min) {
             setQuantity(val);
             props.setQtyFunction(val);
           }
@@ -37,7 +37,7 @@ const NumSelect = props => {
         onChange={e => {
           const val = e.target.value;
 
-          if (/^[0-9]*$/.test(val) && val <= props.limit) {
+          if (/^[0-9]*$/.test(val) && val >= props.min && val <= props.max) {
             setQuantity(val);
             props.setQtyFunction(val);
           }
@@ -49,7 +49,7 @@ const NumSelect = props => {
         onClick={() => {
           const val = qty + 1;
 
-          if (val <= props.limit) {
+          if (val <= props.max) {
             setQuantity(val);
             props.setQtyFunction(val);
           }
@@ -61,8 +61,13 @@ const NumSelect = props => {
   );
 };
 
+NumSelect.defaultProps = {
+  min: 0,
+};
+
 NumSelect.propTypes = {
-  limit: PropTypes.number.isRequired,
+  min: PropTypes.number,
+  max: PropTypes.number.isRequired,
   setQtyFunction: PropTypes.func.isRequired,
   qty: PropTypes.number.isRequired,
 };
