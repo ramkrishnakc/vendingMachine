@@ -164,13 +164,14 @@ const RefundPopup = props => {
         open={openRefCart}
         closePopup={() => setOpenRefCartBool(false)}
         handleConfirm={() => {
-          props.handleConfirm(items);
+          props.handleConfirm(items, refCart);
+          setOpenRefCartBool(false);
         }}
         title="Return Confirmation"
         descriptionInfo={`Please confirm your return request. You will be refunded with Rs.${refundAmount} once your return request is processed.`}
         overrideContentStyle={{
-          minWidth: 'calc(100% - 30px)',
-          width: 'calc(100% - 30px)',
+          minWidth: 'calc(100% - 50px)',
+          width: 'calc(100% - 50px)',
         }}
       >
         <table className="font-size-13" cellSpacing="0" cellPadding="0">

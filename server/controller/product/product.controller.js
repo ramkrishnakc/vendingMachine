@@ -88,7 +88,50 @@ const buyProducts = async (req, res) => {
   }
 };
 
+/* Handle item returns by updating available coins, product stock & refund info */
+const refundItems = async (req, res) => {
+  try {
+    const {coins, refundData, products} = req.body;
+
+    await Coin.put({query: {v_id: 'VENDOR-01'}, data: {coin_available: coins}});
+    await Promise.all(
+      refundData.map(ele =>
+        Purchase.put({
+          query: {'purchase_array._id': ele._id},
+          data: {
+            $set: {
+              'purchase_array.$.refund_quantity': ele.refund_quantity,
+              'purchase_array.$.refund_date': new Date().toISOString(),
+            },
+          },
+        })
+      )
+    );
+    await Promise.all(
+      products.map(prod =>
+        Product.put({
+          query: {product_name: prod.product_name},
+          data: {$inc: {product_stock: prod.product_stock}},
+        })
+      )
+    );
+
+    return sendSuccessResponse(
+      res,
+      null,
+      `Refund was Successful - total coins:${coins}`
+    );
+  } catch (err) {
+    return sendErrorResponse({
+      res,
+      message: 'Could not proceed with refunding items',
+      logMsg: err,
+    });
+  }
+};
+
 export default {
   getProducts,
   buyProducts,
+  refundItems,
 };

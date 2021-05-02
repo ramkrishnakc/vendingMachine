@@ -52,6 +52,7 @@ PopupWrapper.defaultProps = {
     background: '#eff0f3',
     minWidth: 'calc(100% - 10px)',
     width: 'calc(100% - 10px)',
+    maxHeight: 'calc(100% - 50px)',
     overflow: 'auto',
   },
   displayBarBottom: true,

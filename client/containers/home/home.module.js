@@ -12,14 +12,16 @@ const FETCH_PRODUCTS_FAILURE = addPrefix(prefix, 'fetch_products_failure');
 const CHECKOUT = addPrefix(prefix, 'checkout');
 const CHECKOUT_SUCCESS = addPrefix(prefix, 'checkout_success');
 const CHECKOUT_FAILURE = addPrefix(prefix, 'checkout_failure');
+const REFUND = addPrefix(prefix, 'refund');
+const REFUND_SUCCESS = addPrefix(prefix, 'refund_success');
+const REFUND_FAILURE = addPrefix(prefix, 'refund_failure');
 
 const INITIAL_STATE = {
   purchases: [],
   products: [],
   coins: 0,
-  checkingOut: false,
-  fetchingData: false,
   random_id: '',
+  requestInProgress: false,
 };
 
 /* -------------------------- actions ------------------ */
@@ -70,13 +72,35 @@ export const handleCheckout = payload => {
   };
 };
 
+export const handleRefund = payload => {
+  return dispatch => {
+    dispatch({type: REFUND});
+    return axios
+      .post('/vendorapi/products/refund', payload, {})
+      .then(res => {
+        if (get(res, ['data', 'success'])) {
+          success('Refund successful.');
+          return dispatch({type: REFUND_SUCCESS, payload});
+        }
+        errorMsg('Unable to refund. Internal server error.');
+        return dispatch({type: REFUND_FAILURE});
+      })
+      .catch(err => {
+        errorMsg('Unable to refund. Internal server error.');
+        return dispatch({type: REFUND_FAILURE, payload: err});
+      });
+  };
+};
+
 /* --------------------------------- reducer ---------------- */
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case REFUND:
+    case CHECKOUT:
     case FETCH_PRODUCTS: {
       return {
         ...state,
-        fetchingData: true,
+        requestInProgress: true,
       };
     }
 
@@ -89,8 +113,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         })),
         purchases: action.payload.purchases,
         coins: action.payload.coins,
-        fetchingData: false,
         random_id: Util.randomString(5),
+        requestInProgress: false,
       };
     }
 
@@ -100,15 +124,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         products: [],
         purchases: [],
         coins: 0,
-        fetchingData: false,
         random_id: Util.randomString(5),
-      };
-    }
-
-    case CHECKOUT: {
-      return {
-        ...state,
-        checkingOut: true,
+        requestInProgress: false,
       };
     }
 
@@ -131,14 +148,38 @@ const reducer = (state = INITIAL_STATE, action) => {
           return item;
         }),
         random_id: Util.randomString(5),
-        checkingOut: false,
+        requestInProgress: false,
       };
     }
 
+    case REFUND_SUCCESS: {
+      return {
+        ...state,
+        coins: action.payload.coins,
+        products: state.products.map(item => {
+          const match = action.payload.products.find(
+            ele => ele.product_name === item.product_name
+          );
+
+          if (match) {
+            return {
+              ...item,
+              old_stock: item.old_stock + match.product_stock,
+              product_stock: item.old_stock + match.product_stock,
+            };
+          }
+          return item;
+        }),
+        random_id: Util.randomString(5),
+        requestInProgress: false,
+      };
+    }
+
+    case REFUND_FAILURE:
     case CHECKOUT_FAILURE: {
       return {
         ...state,
-        checkingOut: false,
+        requestInProgress: false,
         random_id: Util.randomString(5),
       };
     }
