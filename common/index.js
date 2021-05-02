@@ -16,4 +16,12 @@ export default {
 
   displayDate: date =>
     date ? new Date(date).toString().split(' GMT')[0] : '-',
+
+  getNumberOfDaysBetweenDates: (minDate, maxDate = new Date()) => {
+    const min = new Date(minDate);
+    const max = new Date(maxDate);
+    const diffTime = min.getTime() - max.getTime();
+    const diffDays = diffTime / (1000 * 3600 * 24);
+    return diffDays;
+  },
 };

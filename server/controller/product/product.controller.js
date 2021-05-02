@@ -99,8 +99,8 @@ const refundItems = async (req, res) => {
         Purchase.put({
           query: {'purchase_array._id': ele._id},
           data: {
+            $inc: {'purchase_array.$.refund_quantity': ele.refund_quantity},
             $set: {
-              'purchase_array.$.refund_quantity': ele.refund_quantity,
               'purchase_array.$.refund_date': new Date().toISOString(),
             },
           },

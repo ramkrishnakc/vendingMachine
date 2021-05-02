@@ -95,6 +95,11 @@ const RefundPopup = props => {
 
             return item.purchase_array.map((ele, idx) => {
               const bool = idx === len - 1;
+              const maxRefundQty = ele.product_quantity - ele.refund_quantity;
+              const redundAllowed =
+                maxRefundQty &&
+                Utils.getNumberOfDaysBetweenDates(item.purchase_date) <= 10;
+
               return (
                 <tr>
                   {idx === 0 && (
@@ -124,29 +129,33 @@ const RefundPopup = props => {
                     Rs.{ele.refund_quantity * ele.product_rate}
                   </td>
                   <td className={getClass(bool)}>
-                    <div className="qty-select qty-select-cart-edit">
-                      <NumSelect
-                        qty={ele.new_refund}
-                        max={ele.product_quantity - ele.refund_quantity}
-                        setQtyFunction={val => {
-                          const oldValue = get(
-                            items,
-                            `[${outerIdx}].purchase_array[${idx}].new_refund`,
-                            0
-                          );
-                          const diff = val - oldValue;
+                    {redundAllowed ? (
+                      <div className="qty-select qty-select-cart-edit">
+                        <NumSelect
+                          qty={ele.new_refund}
+                          max={maxRefundQty}
+                          setQtyFunction={val => {
+                            const oldValue = get(
+                              items,
+                              `[${outerIdx}].purchase_array[${idx}].new_refund`,
+                              0
+                            );
+                            const diff = val - oldValue;
 
-                          setRefCart(getRefCart(refCart, ele, diff));
+                            setRefCart(getRefCart(refCart, ele, diff));
 
-                          set(
-                            items,
-                            `[${outerIdx}].purchase_array[${idx}].new_refund`,
-                            val
-                          );
-                          setItems(items);
-                        }}
-                      />
-                    </div>
+                            set(
+                              items,
+                              `[${outerIdx}].purchase_array[${idx}].new_refund`,
+                              val
+                            );
+                            setItems(items);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      'NA.'
+                    )}
                   </td>
                   {idx === 0 && (
                     <td rowSpan={len} className={getClass(true)}>
