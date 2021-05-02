@@ -3,8 +3,9 @@ import {get} from 'lodash';
 import Model from '../../model';
 import {sendSuccessResponse, sendErrorResponse} from '../helper';
 
-const Product = Model.product;
 const Coin = Model.coin;
+const Product = Model.product;
+const Purchase = Model.purchase;
 
 /* Get coins and list of products to display */
 const getProducts = async (req, res) => {
@@ -21,10 +22,20 @@ const getProducts = async (req, res) => {
       },
       sort: {product_name: 1},
     });
+    const purchases = await Purchase.get({
+      query: {},
+      select: {
+        purchase_date: 1,
+        purchase_amount: 1,
+        purchase_array: 1,
+      },
+      sort: {purchase_date: -1},
+    });
 
     return sendSuccessResponse(res, {
       coins: get(coins, 'coin_available'),
       products,
+      purchases,
     });
   } catch (err) {
     return sendErrorResponse({
@@ -39,17 +50,29 @@ const getProducts = async (req, res) => {
 const buyProducts = async (req, res) => {
   try {
     const {coins, products} = req.body;
-    const promises = [
-      Coin.put({query: {v_id: 'VENDOR-01'}, data: {coin_available: coins}}),
-      ...products.map(prod =>
+    const purchaseData = {
+      purchase_amount: products.reduce(
+        (acc, cur) => acc + cur.product_rate * cur.product_quantity,
+        0
+      ),
+      purchase_array: products.map(prod => ({
+        product_name: prod.product_name,
+        product_rate: prod.product_rate,
+        product_quantity: prod.product_quantity,
+        refund_quantity: 0,
+      })),
+    };
+
+    await Purchase.post({data: purchaseData});
+    await Coin.put({query: {v_id: 'VENDOR-01'}, data: {coin_available: coins}});
+    await Promise.all(
+      products.map(prod =>
         Product.put({
           query: {product_id: prod.product_id},
           data: {product_stock: prod.product_stock},
         })
-      ),
-    ];
-
-    await Promise.all(promises);
+      )
+    );
 
     return sendSuccessResponse(
       res,
