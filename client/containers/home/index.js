@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import cx from 'classnames';
+import {flattenDeep} from 'lodash';
 
 import Navbar from '../../components/navbar';
 import Loader from '../../components/loader';
@@ -11,7 +12,7 @@ import CheckoutPopup from '../../components/checkoutPopup';
 import RefundPopup from '../../components/refund';
 import {info} from '../../components/notify';
 import SlideButton from '../../components/slideButton';
-import {fetchProducts, handleCheckout} from './home.module';
+import {fetchProducts, handleCheckout, handleRefund} from './home.module';
 
 class Home extends React.Component {
   constructor(props) {
@@ -161,12 +162,43 @@ class Home extends React.Component {
     });
   };
 
-  handleRefund = () => {};
+  /* Handle refund confirmation */
+  handleRefund = (refundData, refundCart) => {
+    const newData = flattenDeep(
+      refundData.map(item => {
+        const arr = item.purchase_array
+          .filter(ele => ele.new_refund)
+          .map(ele => ({
+            refund_rate: ele.product_rate,
+            refund_quantity: ele.new_refund,
+            _id: ele._id,
+          }));
+        return arr;
+      })
+    );
+
+    const payload = {
+      coins:
+        this.state.coins -
+        newData.reduce(
+          (acc, cur) => acc + cur.refund_quantity * cur.refund_rate,
+          0
+        ),
+      products: refundCart.map(prod => ({
+        product_name: prod.name,
+        product_stock: prod.qty,
+      })),
+      refundData: newData,
+    };
+
+    this.props.refund(payload);
+    this.setState({
+      openRefundPopup: false,
+    });
+  };
 
   render() {
-    const loading = this.props.fetchingData || this.props.checkingOut;
-
-    if (loading) {
+    if (this.props.requestInProgress) {
       return <Loader />;
     }
 
@@ -276,10 +308,10 @@ Home.propTypes = {
   products: PropTypes.arrayOf().isRequired,
   purchases: PropTypes.arrayOf().isRequired,
   coins: PropTypes.number.isRequired,
-  checkingOut: PropTypes.bool.isRequired,
-  fetchingData: PropTypes.bool.isRequired,
+  requestInProgress: PropTypes.bool.isRequired,
   fetch: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired,
+  refund: PropTypes.func.isRequired,
   random_id: PropTypes.string.isRequired,
 };
 
@@ -287,8 +319,7 @@ const mapStateToProps = state => ({
   products: state.home.products,
   purchases: state.home.purchases,
   coins: state.home.coins,
-  checkingOut: state.home.checkingOut,
-  fetchingData: state.home.fetchingData,
+  requestInProgress: state.home.requestInProgress,
   random_id: state.home.random_id,
 });
 
@@ -296,6 +327,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetch: data => dispatch(fetchProducts(data)),
     submit: data => dispatch(handleCheckout(data)),
+    refund: data => dispatch(handleRefund(data)),
   };
 };
 
