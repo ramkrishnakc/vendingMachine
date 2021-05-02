@@ -8,10 +8,12 @@ const PopupWrapper = props => {
       position="centerCenter"
       open={props.open}
       onClose={props.closePopup}
-      contentStyle={props.contentStyle}
+      contentStyle={{...props.contentStyle, ...props.overrideContentStyle}}
+      closeOnEsc={props.closeOnEsc}
+      closeOnOverlay={props.closeOnOverlay}
     >
       <div className="popup-wrapper">
-        <h3>Vending Machine</h3>
+        <h3>{props.title}</h3>
         <p style={props.descriptionStyle}>{props.descriptionInfo}</p>
 
         {props.children}
@@ -42,19 +44,21 @@ const PopupWrapper = props => {
 };
 
 PopupWrapper.defaultProps = {
+  title: 'Vending Machine',
   contentStyle: {
     borderRadius: '0px',
     padding: '0px',
     color: '#393d54',
     background: '#eff0f3',
-    minHeight: 'calc(100% - 40px)',
-    minWidth: 'calc(100% - 40px)',
-    height: 'calc(100% - 40px)',
-    width: 'calc(100% - 40px)',
+    minWidth: 'calc(100% - 10px)',
+    width: 'calc(100% - 10px)',
     overflow: 'auto',
   },
   displayBarBottom: true,
   descriptionStyle: {color: 'red', opacity: '0.7', fontSize: '14px'},
+  closeOnEsc: false,
+  closeOnOverlay: false,
+  overrideContentStyle: {},
 };
 PopupWrapper.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -65,5 +69,9 @@ PopupWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   descriptionInfo: PropTypes.string.isRequired,
   descriptionStyle: PropTypes.objectOf(),
+  closeOnEsc: PropTypes.bool,
+  closeOnOverlay: PropTypes.bool,
+  overrideContentStyle: PropTypes.objectOf(),
+  title: PropTypes.string,
 };
 export default PopupWrapper;

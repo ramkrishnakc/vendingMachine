@@ -9,9 +9,10 @@ const CheckoutPopup = props => {
       open={props.open}
       closePopup={props.closePopup}
       handleConfirm={props.handleConfirm}
+      title="Purchase Confirmation"
       descriptionInfo="Please confirm your order and payment."
     >
-      <table cellSpacing="0" cellPadding="0">
+      <table className="font-size-13" cellSpacing="0" cellPadding="0">
         <thead>
           {['Item', 'Qty', 'Rate', 'Price'].map(colHeader => (
             <th>{colHeader}</th>

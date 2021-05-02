@@ -14,6 +14,7 @@ const CHECKOUT_SUCCESS = addPrefix(prefix, 'checkout_success');
 const CHECKOUT_FAILURE = addPrefix(prefix, 'checkout_failure');
 
 const INITIAL_STATE = {
+  purchases: [],
   products: [],
   coins: 0,
   checkingOut: false,
@@ -86,6 +87,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           ...d,
           old_stock: d.product_stock,
         })),
+        purchases: action.payload.purchases,
         coins: action.payload.coins,
         fetchingData: false,
         random_id: Util.randomString(5),
@@ -96,6 +98,7 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         products: [],
+        purchases: [],
         coins: 0,
         fetchingData: false,
         random_id: Util.randomString(5),

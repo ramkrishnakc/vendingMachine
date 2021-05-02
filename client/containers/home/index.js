@@ -23,6 +23,7 @@ class Home extends React.Component {
       openRefundPopup: false,
       coins: this.props.coins,
       products: this.props.products,
+      purchases: this.props.purchases,
       random_id: '',
     };
   }
@@ -33,6 +34,8 @@ class Home extends React.Component {
       obj.random_id = nextProps.random_id;
       obj.coins = nextProps.coins;
       obj.products = nextProps.products;
+      obj.purchases = nextProps.purchases;
+      obj.cart = [];
     }
     return obj;
   }
@@ -143,6 +146,9 @@ class Home extends React.Component {
           }
           return {
             product_id: match.product_id,
+            product_name: match.product_name,
+            product_rate: match.product_rate,
+            product_quantity: match.old_stock - match.product_stock,
             product_stock: match.product_stock,
           };
         })
@@ -167,7 +173,10 @@ class Home extends React.Component {
     return (
       <>
         <Navbar
-          refund={() => this.setState({openRefundPopup: true})}
+          refund={() => {
+            this.setState({openRefundPopup: true});
+            this.props.fetch();
+          }}
           coins={this.state.coins}
         />
         <div className="main-content">
@@ -251,6 +260,8 @@ class Home extends React.Component {
                   open={this.state.openRefundPopup}
                   closePopup={() => this.setState({openRefundPopup: false})}
                   handleConfirm={this.handleRefund}
+                  purchases={this.state.purchases}
+                  random_id={this.state.random_id}
                 />
               </>
             )}
@@ -263,6 +274,7 @@ class Home extends React.Component {
 
 Home.propTypes = {
   products: PropTypes.arrayOf().isRequired,
+  purchases: PropTypes.arrayOf().isRequired,
   coins: PropTypes.number.isRequired,
   checkingOut: PropTypes.bool.isRequired,
   fetchingData: PropTypes.bool.isRequired,
@@ -273,6 +285,7 @@ Home.propTypes = {
 
 const mapStateToProps = state => ({
   products: state.home.products,
+  purchases: state.home.purchases,
   coins: state.home.coins,
   checkingOut: state.home.checkingOut,
   fetchingData: state.home.fetchingData,
