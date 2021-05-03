@@ -242,6 +242,7 @@ class Home extends React.Component {
                           name={item.product_name}
                           price={item.product_rate}
                           stock={item.product_stock}
+                          img={item.product_image}
                           buttonOnClick={this.addToCart(item)}
                           buttonLabel={btnLabel}
                           buttonDisable={btnDisable}

@@ -12,7 +12,9 @@ const Tile = props => {
       <div className="item-title capitalize">
         <h6>{props.name}</h6>
       </div>
-      <div className="item-image">Image</div>
+      <div className="item-image">
+        <img src={`./uploads/products/${props.img}`} alt={props.name} />
+      </div>
       <div className="item-info">
         <span>Price: Rs.{props.price}</span>
         &nbsp;
@@ -48,6 +50,7 @@ const Tile = props => {
 
 Tile.propTypes = {
   name: PropTypes.string.isRequired,
+  img: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   stock: PropTypes.number.isRequired,
   buttonOnClick: PropTypes.func.isRequired,

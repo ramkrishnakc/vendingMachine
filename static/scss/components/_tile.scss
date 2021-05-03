@@ -14,7 +14,11 @@
 
   .item-image{
     height: 145px;
-    // border: 1px solid black;
+    padding: 0px 20px;
+    img {
+      height: 145px;
+      width: 100%;
+    }
   }
 
   .item-info {
