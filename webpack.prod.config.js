@@ -9,7 +9,7 @@ module.exports = {
     main: './client/index.js',
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist/dist'),
     publicPath: '/',
     filename: '[name].js',
   },
@@ -19,7 +19,6 @@ module.exports = {
     },
   },
   target: 'web',
-  devtool: '#source-map',
   // Webpack 4 does not have a CSS minifier, although
   // Webpack 5 will likely come with one
   optimization: {
@@ -55,7 +54,7 @@ module.exports = {
       },
       {
         // Loads images into CSS and Javascript files
-        test: /\.jpg$/,
+        test: /\.(svg|png|jpg)$/,
         use: [{loader: 'url-loader'}],
       },
       {
@@ -69,6 +68,10 @@ module.exports = {
           'css-loader',
           'sass-loader',
         ],
+      },
+      {
+        test: /\.(otf|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        use: 'file-loader?name=fonts/[name].[ext]',
       },
     ],
   },

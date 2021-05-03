@@ -15,20 +15,18 @@
     "ignore": []
   },
   "scripts": {
-    "buildDev": "rm -rf dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
-    "buildProd": "rm -rf dist && webpack --mode production --config webpack.server.config.js && webpack --mode production --config webpack.prod.config.js",
-    "startServer": "NODE_ENV=development node ./dist/server.js",
-    "build-dev": "webpack --config webpack.config__old.js",
-    "start": "npm run buildDev && NODE_ENV=development nodemon --exec node_modules/.bin/babel-node ./server/index.js",
-    "start-dev": "NODE_ENV=development node_modules/.bin/babel-node ./server/index.js",
-    "startd": "nodemon ./server/index.js --exec babel-node --presets es2015,stage-2",
-    "dev": "webpack-dev-server --config ./webpack.config.js --hot --inline --progress",
-    "build": "BABEL_ENV=production webpack -p --config webpack.config.production.js",
-    "test": "NODE_ENV=test mocha -r tests/helper.js tests/test.spec.js",
-    "lint": "eslint .",
+    "build": "rm -rf dist logs && npm run build-prod && npm run copy-folders && webpack --config webpack.prod.config.js && cp -R ./uploads dist/dist",
+    "build-dev": "rm -rf dist logs && webpack --config webpack.dev.config.js",
+    "build-common": "node_modules/.bin/babel -d ./dist/common ./common",
+    "build-prod": "npm run build-server && npm run build-common",
+    "build-server": "node_modules/.bin/babel -d ./dist/server ./server",
+    "copy-certs": "cp -R ./server/certs dist/server",
+    "copy-folders": "npm run copy-certs && npm run copy-json-data",
+    "copy-json-data": "mkdir dist/static && cp -R ./static/data dist/static",
     "copy-upload": "cp -R ./uploads dist/uploads",
-    "builddev": "rm -rf dist logs && webpack --config webpack.dev.config.js",
-    "rundev": "npm run builddev && npm run copy-upload && NODE_ENV=development nodemon --exec node_modules/.bin/babel-node ./server/index.js"
+    "production": "NODE_ENV=production node dist/server/index.js",
+    "start": "npm run build-dev && npm run copy-upload && NODE_ENV=development nodemon --exec node_modules/.bin/babel-node ./server/index.js",
+    "test": "NODE_ENV=test mocha -r tests/helper.js tests/test.spec.js"
   },
   "keywords": [
     "vendor",
