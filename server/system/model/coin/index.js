@@ -8,5 +8,6 @@ export default {
   getOne: Lib.findOne,
   post: Lib.create,
   delete: Lib.deleteOne,
+  deleteMany: Lib.deleteMany,
   put: Lib.update,
 };

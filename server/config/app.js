@@ -10,7 +10,8 @@ const certDirectory =
 const logDirectory =
   process.env.LOGFILE_LOCATION || path.join(rootPath, 'logs');
 const schemaDirectory = path.join(serverPath, 'schema');
-const dbName = 'vendorMachine';
+const dbName =
+  process.env.NODE_ENV === 'test' ? 'vendorMachine-test' : 'vendorMachine';
 
 export default {
   rootPath,

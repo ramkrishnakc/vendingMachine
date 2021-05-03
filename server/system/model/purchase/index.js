@@ -9,5 +9,6 @@ export default {
   post: Lib.create,
   postMany: Lib.insertMany,
   delete: Lib.deleteOne,
+  deleteMany: Lib.deleteMany,
   put: Lib.update,
 };

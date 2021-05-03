@@ -8,4 +8,5 @@ const getServerDetails = (httpPort, httpsPort, ip) => ({
 export default {
   development: getServerDetails('8000', '8443', 'localhost'),
   production: getServerDetails('80', '443', 'localhost'),
+  test: getServerDetails('8005', '8445', 'localhost'),
 };

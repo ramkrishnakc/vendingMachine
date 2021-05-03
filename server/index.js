@@ -55,6 +55,8 @@ const createHTTPsServer = () =>
       handleServerStatusLog('HTTPS', httpsPort, err)
     );
 
+let httpInstance;
+
 const SERVER = {
   start: () => {
     config.express(app, config.app); // Configure express server
@@ -62,17 +64,33 @@ const SERVER = {
     const routes = require('./routes').default; // eslint-disable-line global-require
     routes(app); // Configure routes
 
-    uploadPaths.forEach(uploadPath => mkDirByPathSync(uploadPath)); // create file upload paths if needed
-    createHTTPServer(); // start HTTP server
-    createHTTPsServer(); // Finally start HTTPS server
+    // For test run HTTP server only
+    if (env === 'test') {
+      httpInstance = createHTTPServer();
+    } else {
+      uploadPaths.forEach(uploadPath => mkDirByPathSync(uploadPath)); // create file upload paths if needed
+      createHTTPServer(); // start HTTP server
+      createHTTPsServer(); // Finally start HTTPS server
+    }
   },
 };
 
 // Initialize Database then start the server
-createDB()
-  .then(() => SERVER.start())
-  .then(() => insertInitialData())
-  .catch(e => {
-    logger.error('Error while starting the Application....');
-    logger.trace(e.stack);
-  });
+const initializeServer = () =>
+  createDB()
+    .then(() => SERVER.start())
+    .then(() => insertInitialData())
+    .then(() => ({
+      status: 'server_started',
+      httpInstance,
+    }))
+    .catch(e => {
+      logger.error('Error while starting the Application....');
+      logger.trace(e.stack);
+    });
+
+if (require.main === module) {
+  initializeServer();
+}
+
+export default initializeServer;
