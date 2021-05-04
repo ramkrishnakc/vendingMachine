@@ -13,10 +13,10 @@ This is a simple project to meet the need of operating a vending machine. There 
 
 # Getting Started
   # Requirements
-  - node version > v10.14.1 (follow this link https://nodejs.org/en/download/)
+  - node version > v14.12.0 (follow this link https://nodejs.org/en/download/)
   - git (follow this link https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
   - mongodb version > 4.4.0 (follow this link https://docs.mongodb.com/manual/administration/install-community/)
-  - docker & docker-compose must be installed to run project using docker (follow this link https://docs.docker.com/get-docker/)
+  - docker & docker-compose (latest) must be installed to run project using docker (follow this link https://docs.docker.com/get-docker/)
   # Starting the project without docker
   - git clone https://github.com/ramkrishnakc/vendingMachine.git (Clone the project)
   - Mongo DB should be up and running before starting the project
