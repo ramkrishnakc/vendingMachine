@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:4.4.5-bionic
+    container_name: mongodb
+    restart: unless-stopped
+    volumes:
+      - dbdata:/data/db
+    ports:
+      - "27017:27017"
+  
+  node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node-app
+    restart: unless-stopped
+    environment:
+      - MONGO_HOSTNAME=mongodb
+    depends_on:
+      - mongodb
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+    volumes:
+      - ./server:/usr/src/server
+      - ./common:/usr/src/common
+      - ./client:/usr/src/client
+
+volumes:
+  dbdata:
