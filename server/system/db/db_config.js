@@ -1,16 +1,17 @@
 import config from '../../config';
 
 const {schemaDirectory, dbName} = config.app;
+const mongohost = process.env.MONGO_HOSTNAME || 'localhost';
 
 export default {
   mongodb: {
-    url: `mongodb://localhost:27017/${dbName}`,
+    url: `mongodb://${mongohost}:27017/${dbName}`,
     config: {autoIndex: false},
   },
   db: [
     {
       name: dbName,
-      url: `mongodb://localhost:27017/${dbName}`,
+      url: `mongodb://${mongohost}:27017/${dbName}`,
       schemaDirectory,
       options: {
         useNewUrlParser: true, // when true port must be specified in url

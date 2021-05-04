@@ -6,7 +6,7 @@ const getServerDetails = (httpPort, httpsPort, ip) => ({
 });
 
 export default {
-  development: getServerDetails('8009', '8449', 'localhost'),
-  production: getServerDetails('8000', '8443', 'localhost'),
-  test: getServerDetails('8005', '8445', 'localhost'),
+  development: getServerDetails('8000', '8443', '0.0.0.0'),
+  production: getServerDetails('8000', '8443', '0.0.0.0'),
+  test: getServerDetails('8005', '8445', '0.0.0.0'),
 };
